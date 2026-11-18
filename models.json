@@ -19,6 +19,12 @@
         "label": "Best code",
         "paid_only": false,
         "note": "Coding-focused reasoner; best for trickier game mechanics."
+    },    {
+        "name": "z-ai/glm-5.3-flash",
+        "role": "code",
+        "label": "Cheap",
+        "paid_only": false,
+        "note": "Cheapest writer in the picker; good for quick arcade loops."
     },
     {
         "name": "tongyi-mai/z-image-turbo",

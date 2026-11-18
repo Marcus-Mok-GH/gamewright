@@ -40,7 +40,7 @@ Every default is in the live model catalog with `paid_only: false`, so a user ca
 | --- | --- | --- | --- |
 | Game code (fast) | `openai/gpt-5.4-nano` | false | `/v1/chat/completions` |
 | Game code (default) | `openai/gpt-5.4-mini` | false | `/v1/chat/completions` |
-| Game code (best) | `openai/gpt-5.3-codex` | false | `/v1/chat/completions` |
+| Game code (best) | `openai/gpt-5.3-codex` | false | `/v1/chat/completions` || Game code (cheap) | `z-ai/glm-5.3-flash` | false | `/v1/chat/completions` |
 | Cover art | `tongyi-mai/z-image-turbo` | false | `/v1/images/generations` |
 | Announcer voice | `openai/tts-1` | false | `/v1/audio/speech` |
 
