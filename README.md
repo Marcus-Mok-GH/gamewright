@@ -35,16 +35,24 @@ Live app: **https://marcus-mok-gh.github.io/gamewright/**
 ## Models
 
 Every default is in the live model catalog with `paid_only: false`, so a user can run them on a Quest balance.
+Each model has its own catalog entry — the link in the last column returns that entry as JSON.
 
-| Role | Model | `paid_only` | Endpoint |
-| --- | --- | --- | --- |
-| Game code (fast) | `openai/gpt-5.4-nano` | false | `/v1/chat/completions` |
-| Game code (default) | `openai/gpt-5.4-mini` | false | `/v1/chat/completions` |
-| Game code (best) | `openai/gpt-5.3-codex` | false | `/v1/chat/completions` || Game code (cheap) | `z-ai/glm-5.3-flash` | false | `/v1/chat/completions` |
-| Cover art | `tongyi-mai/z-image-turbo` | false | `/v1/images/generations` |
-| Announcer voice | `openai/tts-1` | false | `/v1/audio/speech` |
+| Role | Model | `paid_only` | Endpoint | Live catalog entry |
+| --- | --- | --- | --- | --- |
+| Game code (fast) | `openai/gpt-5.4-nano` | false | `/v1/chat/completions` | [entry](https://gen.pollinations.ai/v1/models/openai/gpt-5.4-nano) |
+| Game code (default) | `openai/gpt-5.4-mini` | false | `/v1/chat/completions` | [entry](https://gen.pollinations.ai/v1/models/openai/gpt-5.4-mini) |
+| Game code (best) | `openai/gpt-5.3-codex` | false | `/v1/chat/completions` | [entry](https://gen.pollinations.ai/v1/models/openai/gpt-5.3-codex) |
+| Game code (cheap) | `z-ai/glm-5.3-flash` | false | `/v1/chat/completions` | [entry](https://gen.pollinations.ai/v1/models/z-ai/glm-5.3-flash) |
+| Cover art | `tongyi-mai/z-image-turbo` | false | `/v1/images/generations` | [entry](https://gen.pollinations.ai/v1/models/tongyi-mai/z-image-turbo) |
+| Announcer voice | `openai/tts-1` | false | `/v1/audio/speech` | [entry](https://gen.pollinations.ai/v1/models/openai/tts-1) |
 
-The catalog entries are copied into [`models.json`](models.json), read from <https://gen.pollinations.ai/models> on 2026-11-18. The defaults are constants at the top of `api.js`, so you can point the app at a different model without touching anything else.
+The catalog entries are copied into [`models.json`](models.json), read from <https://gen.pollinations.ai/v1/models> on 2026-11-18. The full list endpoint returns one long minified line, so the per-model links above are the easy way to check a single entry:
+
+```bash
+curl -s https://gen.pollinations.ai/v1/models/openai/gpt-5.4-mini
+```
+
+The defaults are constants at the top of `api.js`, so you can point the app at a different model without touching anything else.
 
 ## Run it locally
 

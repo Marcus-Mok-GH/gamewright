@@ -1,43 +1,56 @@
 [
     {
         "name": "openai/gpt-5.4-mini",
+        "title": "GPT-5.4 Mini",
         "role": "code",
         "label": "Balanced",
         "paid_only": false,
+        "catalog_url": "https://gen.pollinations.ai/v1/models/openai/gpt-5.4-mini",
         "note": "Default game writer — strong all-round quality at mid cost."
     },
     {
         "name": "openai/gpt-5.4-nano",
+        "title": "GPT-5.4 Nano",
         "role": "code",
         "label": "Fast",
         "paid_only": false,
+        "catalog_url": "https://gen.pollinations.ai/v1/models/openai/gpt-5.4-nano",
         "note": "Quickest and cheapest writer; good for tiny arcade games."
     },
     {
         "name": "openai/gpt-5.3-codex",
+        "title": "GPT-5.3 Codex",
         "role": "code",
         "label": "Best code",
         "paid_only": false,
+        "catalog_url": "https://gen.pollinations.ai/v1/models/openai/gpt-5.3-codex",
         "note": "Coding-focused reasoner; best for trickier game mechanics."
-    },    {
+    },
+    {
         "name": "z-ai/glm-5.3-flash",
+        "title": "GLM-5.3-Flash",
         "role": "code",
         "label": "Cheap",
         "paid_only": false,
+        "catalog_url": "https://gen.pollinations.ai/v1/models/z-ai/glm-5.3-flash",
         "note": "Cheapest writer in the picker; good for quick arcade loops."
     },
     {
         "name": "tongyi-mai/z-image-turbo",
+        "title": "Z-Image Turbo",
         "role": "image",
         "label": "Cover art",
         "paid_only": false,
+        "catalog_url": "https://gen.pollinations.ai/v1/models/tongyi-mai/z-image-turbo",
         "note": "Instant, budget-friendly cover art."
     },
     {
         "name": "openai/tts-1",
+        "title": "TTS-1",
         "role": "speech",
         "label": "Announcer",
         "paid_only": false,
+        "catalog_url": "https://gen.pollinations.ai/v1/models/openai/tts-1",
         "note": "Short spoken announcement of the game you just built."
     }
 ]

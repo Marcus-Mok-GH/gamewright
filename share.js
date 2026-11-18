@@ -503,7 +503,7 @@ export function decodeGame(fragment) {
  */
 export function buildShareUrl(baseHref, payload) {
     let base = baseHref;
-    if (!base && typeof location !== "undefined" && location && location.href) {
+    if (!base && typeof location !== "undefined" && location?.href) {
         base = location.href;
     }
     const clean = text(base).split("#")[0];

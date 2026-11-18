@@ -125,6 +125,10 @@
                         <li>
                             An image model paints the cover (<code>tongyi-mai/z-image-turbo</code>), and a
                             speech model can announce your game (<code>openai/tts-1</code>).
+                        </li>                        <li>
+                            Every model above is <code>paid_only: false</code> in the live
+                            <a href="https://gen.pollinations.ai/models" rel="noopener">model catalog</a>, so a
+                            Pollen balance can pay for all of them.
                         </li>
                         <li>
                             Every call goes to the
@@ -237,6 +241,7 @@
 
         <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+        <!-- biome-ignore lint/a11y/useMediaCaption: the announcer reads the game title, which is already on screen -->
         <audio id="announce" hidden></audio>
 
         <script type="module" src="app.js"></script>
