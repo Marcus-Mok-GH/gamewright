@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <title>Gamewright — describe a game, get a playable game</title>
+        <meta
+            name="description"
+            content="Gamewright turns the game you describe into a playable browser game you can share. Pollinations models write the code and draw the art. You pay from your own Pollen."
+        />
+        <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+        <link rel="stylesheet" href="styles.css" />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/@pollinations/ui@0.1.0-alpha.20/dist/connect.js"
+        ></script>
+    </head>
+    <body class="site">
+        <header class="topbar">
+            <div class="brand">
+                <span class="logo" aria-hidden="true">🕹️</span>
+                <span class="wordmark">
+                    Gamewright
+                    <small>describe a game · play it · share it</small>
+                </span>
+            </div>
+            <div class="topbar-right" id="topbar-right">
+                <button class="btn ghost" id="signin-btn" type="button" data-signin>
+                    Connect
+                </button>
+                <span class="chip balance" id="balance" hidden></span>
+            </div>
+        </header>
+
+        <main class="layout">
+            <!-- ---------------------------------------------------------- forge -->
+            <section class="panel forge-panel">
+                <h2 class="panel-title">Dream a game</h2>
+                <p class="panel-note">
+                    Describe it in a sentence. A Pollinations model writes the whole game — code,
+                    art and sound — and it plays right here.
+                </p>
+                <div class="connect-card" id="connect-veil" hidden>
+                    <div class="connect-copy">
+                        <p class="connect-title">Connect to build your own game</p>
+                        <p class="muted">
+                            Pollinations writes the code, paints the cover and narrates it. Every
+                            request is billed to your own Pollen balance, so you stay in control.
+                        </p>
+                    </div>
+                    <button class="btn primary" type="button" data-signin>Connect</button>
+                </div>
+
+                <label class="field">
+                    <span class="field-label">Your idea</span>
+                    <textarea
+                        id="prompt"
+                        class="prompt-input"
+                        rows="4"
+                        maxlength="600"
+                        placeholder="A game where you pilot a delivery drone through a windy city, dropping pizza on hungry rooftop cats."
+                    ></textarea>
+                </label>
+
+                <div class="field-row">
+                    <label class="field">
+                        <span class="field-label">Genre</span>
+                        <select id="genre" class="select"></select>
+                    </label>
+                    <label class="field">
+                        <span class="field-label">Model</span>
+                        <select id="model" class="select"></select>
+                    </label>
+                </div>
+
+                <label class="field">
+                    <span class="field-label">Extra details (optional)</span>
+                    <input
+                        id="extra"
+                        class="text-input"
+                        maxlength="300"
+                        placeholder="neon pixel art, mouse only, no jump button"
+                    />
+                </label>
+
+                <div class="row actions">
+                    <button class="btn primary" id="forge-btn" type="button" data-needs-key>
+                        Make the game
+                    </button>
+                    <button class="btn ghost" id="surprise-btn" type="button" data-needs-key>
+                        Surprise me
+                    </button>
+                </div>
+
+                <div class="toggles">
+                    <label class="toggle">
+                        <input type="checkbox" id="opt-cover" checked />
+                        <span>Cover art</span>
+                    </label>
+                    <label class="toggle">
+                        <input type="checkbox" id="opt-voice" />
+                        <span>Announcer voice</span>
+                    </label>
+                </div>
+
+                <p class="status" id="status"></p>
+
+                <details class="how">
+                    <summary>How it works</summary>
+                    <ul>
+                        <li>A text model writes one self-contained HTML file: the game, its art and its sound effects.</li>
+                        <li>An image model paints the cover, and a speech model can announce your game.</li>
+                        <li>Games run in a locked-down frame — no network, no access to your account.</li>
+                        <li>Every request is billed to your own Pollinations balance. Nothing is charged until you build.</li>
+                    </ul>
+                </details>
+            </section>
+
+            <!-- ----------------------------------------------------------- stage -->
+            <section class="panel stage-panel">
+                <div class="stage-head">
+                    <h2 class="game-title" id="game-title">Nothing built yet</h2>
+                    <span class="chip" id="game-meta" hidden></span>
+                </div>
+
+                <div class="stage" id="stage">
+                    <div class="stage-empty" id="stage-empty">
+                        <span class="stage-empty-mark" aria-hidden="true">🎮</span>
+                        <p>Your game will appear here the moment it is written.</p>
+                        <button class="btn ghost" id="demo-btn" type="button">Play the demo</button>
+                    </div>
+                    <img class="cover" id="cover" alt="" hidden />
+                    <iframe
+                        id="game-frame"
+                        class="game-frame"
+                        title="Your game"
+                        sandbox="allow-scripts allow-pointer-lock"
+                        allow="fullscreen"
+                        allowfullscreen
+                        hidden
+                    ></iframe>
+                </div>
+
+                <div class="stage-actions" id="stage-actions" hidden>
+                    <button class="btn ghost" id="share-btn" type="button">Copy share link</button>
+                    <button class="btn ghost" id="download-btn" type="button">Download .html</button>
+                    <button class="btn ghost" id="fullscreen-btn" type="button">Fullscreen</button>
+                    <button class="btn ghost" id="remix-btn" type="button" data-needs-key>Change it</button>
+                    <button class="btn danger" id="fix-btn" type="button" hidden>Fix this game</button>
+                </div>
+
+                <form class="remix-form" id="remix-form" hidden>
+                    <input
+                        id="remix-input"
+                        class="text-input"
+                        maxlength="300"
+                        placeholder="make it twice as hard, add a boss, change the colours"
+                    />
+                    <button class="btn primary" id="remix-send" type="submit">Apply</button>
+                </form>
+            </section>
+        </main>
+
+        <!-- ----------------------------------------------------------- shelf -->
+        <section class="panel library-panel">
+            <h2 class="panel-title">
+                Your shelf
+                <span class="count" id="library-count"></span>
+            </h2>
+            <div class="library" id="library"></div>
+        </section>
+
+        <footer class="footer">
+            <a href="https://pollinations.ai/?ref=badge" rel="noopener">
+                <img
+                    src="https://raw.githubusercontent.com/pollinations/pollinations/main/packages/ui/src/brand/badge-made-with.svg"
+                    alt="Made with pollinations.ai"
+                    width="150"
+                />
+            </a>
+            <p class="muted">
+                Gamewright is frontend only. Your games live in this browser, and every model call
+                goes straight to Pollinations on your own key.
+            </p>
+        </footer>
+
+        <div class="busy" id="busy" hidden>
+            <div class="spinner" aria-hidden="true"></div>
+            <p id="busy-label"></p>
+        </div>
+
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+        <audio id="announce" hidden></audio>
+
+        <script type="module" src="app.js"></script>
+    </body>
+</html>

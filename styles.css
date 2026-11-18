@@ -1,0 +1,1189 @@
+/* ==========================================================================
+   Gamewright — visual design system
+   Neon arcade cabinet in a dark room. Plain CSS, no build step, offline-safe.
+   ========================================================================== */
+
+/* The hidden attribute must always win: several components below set
+   display:flex / display:grid and would otherwise defeat [hidden]. */
+[hidden] {
+	display: none !important;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+:root {
+	/* ---- colour ---- */
+	--bg: #05070d;
+	--bg-deep: #03050a;
+	--surface: #0b1020;
+	--surface-2: #0e1426;
+	--surface-3: #121a2f;
+	--inset: #070b14;
+	--line: rgba(122, 156, 214, 0.18);
+	--line-soft: rgba(122, 156, 214, 0.11);
+	--line-strong: rgba(34, 230, 255, 0.42);
+
+	--text: #e9f2ff;
+	--text-dim: #b9c8e2;
+	--muted: #8698b8;
+	--dim: #64748f;
+
+	--cyan: #22e6ff;
+	--cyan-soft: rgba(34, 230, 255, 0.12);
+	--violet: #7b6cff;
+	--magenta: #ff4fd8;
+	--magenta-soft: rgba(255, 79, 216, 0.13);
+	--amber: #ffb454;
+	--amber-soft: rgba(255, 180, 84, 0.14);
+	--red: #ff5f70;
+
+	--grad-neon: linear-gradient(135deg, #22e6ff 0%, #6f7bff 48%, #ff4fd8 100%);
+	--grad-title: linear-gradient(92deg, #22e6ff 0%, #8f7bff 45%, #ff4fd8 100%);
+
+	/* ---- spacing ---- */
+	--sp-1: 4px;
+	--sp-2: 6px;
+	--sp-3: 8px;
+	--sp-4: 12px;
+	--sp-5: 14px;
+	--sp-6: 18px;
+	--sp-7: 22px;
+	--sp-8: 28px;
+	--gap: 20px;
+	--pad-panel: 18px 20px;
+	--page-max: 1240px;
+
+	/* ---- radii ---- */
+	--r-xs: 4px;
+	--r-sm: 6px;
+	--r-md: 8px;
+	--r-lg: 12px;
+	--r-xl: 14px;
+	--r-2xl: 16px;
+	--r-pill: 999px;
+
+	/* ---- shadows / glows ---- */
+	--shadow-panel:
+		0 18px 40px -28px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.03)
+		inset;
+	--shadow-card: 0 12px 28px -20px rgba(0, 0, 0, 0.85);
+	--glow-cyan: 0 0 18px rgba(34, 230, 255, 0.22);
+	--glow-cyan-strong:
+		0 0 0 1px rgba(34, 230, 255, 0.28), 0 0 22px rgba(34, 230, 255, 0.3);
+	--glow-magenta: 0 0 18px rgba(255, 79, 216, 0.22);
+	--focus-ring: 0 0 0 3px rgba(34, 230, 255, 0.28);
+
+	/* ---- type ---- */
+	--font-display:
+		system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+		sans-serif;
+	--font-sans:
+		system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+		sans-serif;
+	--font-mono:
+		ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+		monospace;
+
+	--fs-xs: 11px;
+	--fs-sm: 13px;
+	--fs-md: 14px;
+	--fs-lg: 16px;
+	--fs-xl: 20px;
+
+	--track-wide: 0.14em;
+	--track-mid: 0.08em;
+
+	--ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ------------------------------------------------------------------ reset */
+html {
+	background: var(--bg);
+	color-scheme: dark;
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	background-color: var(--bg);
+	color: var(--text);
+	font-family: var(--font-sans);
+	font-size: var(--fs-md);
+	line-height: 1.55;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+/* Two soft neon glows — cyan top-left, magenta bottom-right. Fixed so they
+   stay put on long pages and on phones. */
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background:
+		radial-gradient(
+			900px 540px at 12% -10%,
+			rgba(34, 230, 255, 0.16),
+			transparent 62%
+		),
+		radial-gradient(
+			820px 520px at 94% 106%,
+			rgba(255, 79, 216, 0.15),
+			transparent 64%
+		),
+		radial-gradient(
+			600px 420px at 50% 40%,
+			rgba(123, 108, 255, 0.05),
+			transparent 70%
+		);
+}
+
+h1,
+h2,
+h3 {
+	margin: 0;
+	font-family: var(--font-display);
+	font-weight: 800;
+	letter-spacing: -0.015em;
+}
+
+p {
+	margin: 0;
+}
+
+::selection {
+	background: rgba(34, 230, 255, 0.32);
+	color: #ffffff;
+}
+
+:focus-visible {
+	outline: 2px solid var(--cyan);
+	outline-offset: 2px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+	outline: 2px solid var(--cyan);
+	outline-offset: 2px;
+	border-radius: var(--r-xs);
+}
+
+img {
+	max-width: 100%;
+}
+
+/* ---------------------------------------------------------------- topbar */
+.topbar {
+	position: sticky;
+	top: 0;
+	z-index: 30;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	padding: 12px 18px;
+	background: rgba(5, 7, 13, 0.72);
+	backdrop-filter: blur(14px) saturate(150%);
+	-webkit-backdrop-filter: blur(14px) saturate(150%);
+	border-bottom: 1px solid var(--line);
+}
+
+.brand {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.logo {
+	flex: none;
+	width: 42px;
+	height: 42px;
+	display: grid;
+	place-items: center;
+	font-size: 23px;
+	line-height: 1;
+	border-radius: var(--r-lg);
+	border: 1px solid var(--line-strong);
+	background: linear-gradient(
+		140deg,
+		rgba(34, 230, 255, 0.2),
+		rgba(255, 79, 216, 0.18)
+	);
+	box-shadow:
+		var(--glow-cyan),
+		inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.wordmark {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	font-family: var(--font-display);
+	font-size: 19px;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	line-height: 1.05;
+	text-shadow: 0 0 18px rgba(34, 230, 255, 0.28);
+}
+
+.wordmark small {
+	margin-top: 4px;
+	font-family: var(--font-mono);
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: var(--track-wide);
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.topbar-right {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex: 0 0 auto;
+}
+
+/* --------------------------------------------------------------- buttons */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--sp-3);
+	min-height: 38px;
+	padding: 0 15px;
+	border: 1px solid transparent;
+	border-radius: var(--r-md);
+	font-family: inherit;
+	font-size: var(--fs-md);
+	font-weight: 600;
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	background: none;
+	color: var(--text);
+	transition:
+		transform 0.12s var(--ease),
+		box-shadow 0.22s var(--ease),
+		background 0.22s var(--ease),
+		border-color 0.22s var(--ease),
+		opacity 0.2s var(--ease);
+}
+
+.btn:hover:not(:disabled) {
+	transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled) {
+	transform: translateY(0);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+	opacity: 0.45;
+	pointer-events: none;
+	box-shadow: none;
+}
+
+.btn.primary {
+	background: var(--grad-neon);
+	color: #04121a;
+	border-color: transparent;
+	box-shadow:
+		0 6px 20px -10px rgba(34, 230, 255, 0.7),
+		var(--glow-cyan);
+}
+
+.btn.primary:hover:not(:disabled) {
+	box-shadow:
+		0 10px 28px -10px rgba(34, 230, 255, 0.85),
+		0 0 26px rgba(255, 79, 216, 0.28);
+}
+
+.btn.ghost {
+	background: transparent;
+	border: 1px solid rgba(34, 230, 255, 0.42);
+	color: var(--cyan);
+}
+
+.btn.ghost:hover:not(:disabled) {
+	background: var(--cyan-soft);
+	box-shadow: var(--glow-cyan);
+}
+
+.btn.danger {
+	background: transparent;
+	border: 1px solid rgba(255, 180, 84, 0.55);
+	color: var(--amber);
+}
+
+.btn.danger:hover:not(:disabled) {
+	background: var(--amber-soft);
+	box-shadow: 0 0 18px rgba(255, 180, 84, 0.25);
+}
+
+/* `.mini` is the documented name, `.small` is what the app markup ships. */
+.btn.mini,
+.btn.small {
+	min-height: 0;
+	height: 26px;
+	padding: 4px 8px;
+	font-size: 12px;
+	font-weight: 600;
+	border-radius: var(--r-sm);
+	gap: 5px;
+}
+/* A button that still needs a Pollinations key gets a soft amber nudge. */
+.btn.needs-key {
+	box-shadow:
+		0 0 0 1px rgba(255, 183, 77, 0.45),
+		0 0 20px rgba(255, 183, 77, 0.16);
+}
+
+/* ----------------------------------------------------------------- chips */
+.chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	height: 22px;
+	padding: 0 9px;
+	border: 1px solid rgba(34, 230, 255, 0.34);
+	border-radius: var(--r-pill);
+	background: var(--cyan-soft);
+	color: var(--cyan);
+	font-family: var(--font-mono);
+	font-size: var(--fs-xs);
+	font-weight: 600;
+	letter-spacing: var(--track-mid);
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------- layout */ /* The balance pill reads as money, so it gets the warm accent. */
+.chip.balance {
+	color: var(--amber);
+	border-color: rgba(255, 183, 77, 0.36);
+	background: rgba(255, 183, 77, 0.1);
+}
+
+.layout {
+	max-width: var(--page-max);
+	margin: 0 auto;
+	padding: var(--sp-7) 18px var(--sp-6);
+	display: grid;
+	grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
+	gap: var(--gap);
+	align-items: start;
+}
+
+.panel {
+	background: linear-gradient(
+		180deg,
+		rgba(18, 26, 47, 0.92) 0%,
+		rgba(10, 14, 26, 0.9) 100%
+	);
+	border: 1px solid var(--line);
+	border-radius: var(--r-xl);
+	padding: var(--pad-panel);
+	min-width: 0;
+	box-shadow: var(--shadow-panel);
+}
+
+.panel-title {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-3);
+	margin: 0 0 var(--sp-4);
+	font-family: var(--font-display);
+	font-size: var(--fs-xs);
+	font-weight: 700;
+	letter-spacing: var(--track-wide);
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.panel-title .count {
+	display: inline-flex;
+	align-items: center;
+	height: 18px;
+	padding: 0 7px;
+	border: 1px solid rgba(34, 230, 255, 0.3);
+	border-radius: var(--r-pill);
+	background: var(--cyan-soft);
+	color: var(--cyan);
+	font-family: var(--font-mono);
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: var(--track-mid);
+	text-transform: uppercase;
+}
+
+.panel-note {
+	margin: 0 0 var(--sp-5);
+	font-size: var(--fs-sm);
+	line-height: 1.6;
+	color: var(--muted);
+}
+
+/* ---------------------------------------------------------------- fields */
+.field-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-4);
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--sp-2);
+	flex: 1 1 150px;
+	min-width: 0;
+}
+
+.field-label {
+	font-family: var(--font-mono);
+	font-size: var(--fs-xs);
+	font-weight: 600;
+	letter-spacing: var(--track-mid);
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+.prompt-input,
+.select,
+.text-input {
+	width: 100%;
+	font-family: var(--font-sans);
+	font-size: var(--fs-md);
+	color: var(--text);
+	background: var(--inset);
+	border: 1px solid var(--line);
+	border-radius: var(--r-md);
+	transition:
+		border-color 0.2s var(--ease),
+		box-shadow 0.2s var(--ease),
+		background 0.2s var(--ease);
+}
+
+.prompt-input {
+	font-family: var(--font-mono);
+	font-size: 13.5px;
+	line-height: 1.6;
+	min-height: 120px;
+	padding: 12px 13px;
+	resize: vertical;
+}
+
+.select,
+.text-input {
+	padding: 9px 11px;
+}
+
+.text-input {
+	font-family: var(--font-mono);
+	font-size: 13px;
+}
+
+.select {
+	appearance: none;
+	-webkit-appearance: none;
+	padding-right: 34px;
+	background-image:
+		linear-gradient(45deg, transparent 50%, var(--cyan) 50%),
+		linear-gradient(135deg, var(--cyan) 50%, transparent 50%);
+	background-position:
+		calc(100% - 18px) 50%,
+		calc(100% - 13px) 50%;
+	background-size:
+		5px 5px,
+		5px 5px;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.prompt-input::placeholder,
+.text-input::placeholder {
+	color: var(--dim);
+	opacity: 1;
+}
+
+.prompt-input:focus,
+.select:focus,
+.text-input:focus {
+	outline: none;
+	border-color: var(--line-strong);
+	box-shadow: var(--focus-ring);
+	background: #080d18;
+}
+.prompt-input:focus-visible,
+.select:focus-visible,
+.text-input:focus-visible {
+	outline: 2px solid var(--cyan);
+	outline-offset: 2px;
+}
+
+.select option {
+	background: var(--surface-2);
+	color: var(--text);
+}
+
+.row.actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-4);
+	margin-top: var(--sp-5);
+}
+
+.toggles {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px;
+	margin-top: 12px;
+}
+
+.toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--sp-2);
+	font-size: var(--fs-sm);
+	color: var(--text-dim);
+	cursor: pointer;
+	user-select: none;
+}
+
+.toggle input[type="checkbox"] {
+	width: 16px;
+	height: 16px;
+	margin: 0;
+	accent-color: var(--cyan);
+	cursor: pointer;
+}
+
+.status {
+	min-height: 20px;
+	margin-top: 12px;
+	font-family: var(--font-mono);
+	font-size: var(--fs-sm);
+	color: var(--muted);
+}
+
+.status.error {
+	color: var(--red);
+}
+
+.status.busy::before {
+	content: "";
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	margin-right: var(--sp-3);
+	vertical-align: 1px;
+	border-radius: 50%;
+	background: var(--cyan);
+	box-shadow: 0 0 10px rgba(34, 230, 255, 0.9);
+	animation: gw-pulse 1s ease-in-out infinite;
+}
+
+details.how {
+	margin-top: var(--sp-5);
+	padding-top: var(--sp-4);
+	border-top: 1px solid var(--line-soft);
+}
+
+details.how summary {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-3);
+	cursor: pointer;
+	list-style: none;
+	font-family: var(--font-display);
+	font-size: var(--fs-xs);
+	font-weight: 700;
+	letter-spacing: var(--track-wide);
+	text-transform: uppercase;
+	color: var(--muted);
+}
+
+details.how summary::-webkit-details-marker {
+	display: none;
+}
+
+details.how summary::after {
+	content: "+";
+	font-family: var(--font-mono);
+	font-size: 13px;
+	color: var(--cyan);
+}
+
+details.how[open] summary::after {
+	content: "\2212";
+}
+
+details.how > *:not(summary) {
+	font-size: var(--fs-sm);
+	line-height: 1.6;
+	color: var(--muted);
+}
+
+details.how ul {
+	margin: 10px 0 2px;
+	padding-left: 18px;
+}
+
+details.how li {
+	margin: 5px 0;
+}
+
+/* ----------------------------------------------------------------- stage */
+.stage-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--sp-4);
+	margin-bottom: var(--sp-4);
+}
+
+.game-title {
+	margin: 0;
+	font-size: var(--fs-xl);
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	line-height: 1.2;
+	text-wrap: balance;
+	background: var(--grad-title);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+}
+
+.stage {
+	position: relative;
+	width: 100%;
+	min-width: 0;
+	aspect-ratio: 16 / 9;
+	min-height: 320px;
+	max-height: 70vh;
+	overflow: hidden;
+	border: 1px solid var(--line);
+	border-radius: var(--r-lg);
+	background-color: var(--bg-deep);
+	background-image:
+		linear-gradient(rgba(34, 230, 255, 0.055) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(34, 230, 255, 0.055) 1px, transparent 1px),
+		radial-gradient(
+			70% 90% at 50% 40%,
+			rgba(34, 230, 255, 0.07),
+			transparent 70%
+		);
+	background-size:
+		28px 28px,
+		28px 28px,
+		100% 100%;
+}
+
+.stage-empty {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: var(--sp-4);
+	padding: var(--sp-6);
+	text-align: center;
+	color: var(--muted);
+	font-size: var(--fs-sm);
+	line-height: 1.6;
+	pointer-events: none;
+}
+
+.stage-empty p {
+	max-width: 34ch;
+}
+
+.stage-empty-mark {
+	font-size: 44px;
+	line-height: 1;
+	filter: drop-shadow(0 0 14px rgba(34, 230, 255, 0.5));
+}
+
+/* Fallback for markup that does not ship the .stage-empty-mark span. */
+.stage-empty:not(:has(.stage-empty-mark))::before {
+	content: "\1F3AE";
+	font-size: 44px;
+	line-height: 1;
+	filter: drop-shadow(0 0 14px rgba(34, 230, 255, 0.5));
+}
+
+.cover {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0.25;
+	pointer-events: none;
+}
+
+.game-frame {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	background: #05070d;
+}
+
+.stage-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-3);
+	margin-top: var(--sp-4);
+}
+
+.remix-form {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-3);
+	margin-top: 10px;
+}
+
+.remix-form .text-input {
+	flex: 1 1 200px;
+	min-width: 0;
+}
+
+/* --------------------------------------------------------------- library */
+.library-panel {
+	width: 100%;
+	max-width: var(--page-max);
+	margin: 0 auto;
+	padding: var(--pad-panel);
+}
+
+.library {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+	gap: var(--sp-4);
+}
+
+/* The shelf card. `.game-card` is the documented name; `.card` + `.card-cover`
+   are the names the shipped app markup actually ships. Style both. */
+.game-card,
+.card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--sp-3);
+	padding: 10px;
+	border: 1px solid var(--line);
+	border-radius: var(--r-lg);
+	background: linear-gradient(
+		180deg,
+		rgba(18, 26, 47, 0.9),
+		rgba(9, 13, 24, 0.9)
+	);
+	box-shadow: var(--shadow-card);
+	cursor: pointer;
+	transition:
+		transform 0.16s var(--ease),
+		border-color 0.2s var(--ease),
+		box-shadow 0.2s var(--ease);
+}
+
+.game-card:hover,
+.card:hover {
+	transform: translateY(-2px);
+	border-color: rgba(34, 230, 255, 0.4);
+	box-shadow: var(--shadow-card), var(--glow-cyan);
+}
+
+.game-card:focus-visible,
+.card:focus-visible {
+	outline: 2px solid var(--cyan);
+	outline-offset: 2px;
+}
+
+.game-card img,
+.card-cover {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+	border-radius: var(--r-md);
+	background: #0b0f1a;
+}
+
+.card-body {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 0;
+}
+
+.game-card .card-title,
+.card-title {
+	font-size: var(--fs-sm);
+	font-weight: 700;
+	line-height: 1.35;
+	color: var(--text);
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.game-card .card-meta {
+	font-family: var(--font-mono);
+	font-size: var(--fs-xs);
+	color: var(--muted);
+}
+
+.card-prompt {
+	font-size: var(--fs-xs);
+	color: var(--muted);
+	line-height: 1.45;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.game-card .card-actions,
+.card-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--sp-2);
+	margin-top: auto;
+}
+
+.library-empty {
+	padding: 24px;
+	border: 1px dashed var(--line);
+	border-radius: var(--r-lg);
+	color: var(--muted);
+	font-size: var(--fs-sm);
+	text-align: center;
+}
+
+/* ---------------------------------------------------------------- footer */
+.footer {
+	max-width: 720px;
+	margin: 0 auto;
+	padding: 26px 0 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	color: var(--muted);
+	font-size: var(--fs-sm);
+	text-align: center;
+}
+
+.footer img {
+	width: 150px;
+	height: auto;
+}
+
+.footer p.muted,
+.muted {
+	margin: 0;
+	color: var(--muted);
+	font-size: var(--fs-sm);
+	line-height: 1.6;
+}
+
+/* -------------------------------------------------------------- overlays */
+.veil {
+	position: fixed;
+	inset: 0;
+	z-index: 40;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	overflow-y: auto;
+	background: rgba(4, 6, 12, 0.74);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+}
+
+.veil-card {
+	width: 100%;
+	max-width: 460px;
+	padding: 26px;
+	border: 1px solid var(--line);
+	border-radius: var(--r-2xl);
+	background: linear-gradient(
+		180deg,
+		rgba(18, 26, 47, 0.96),
+		rgba(9, 13, 24, 0.96)
+	);
+	box-shadow:
+		var(--shadow-panel),
+		0 0 40px -18px rgba(34, 230, 255, 0.5);
+	text-align: center;
+}
+
+.veil-card h2 {
+	font-size: 22px;
+	margin-bottom: 10px;
+}
+
+.veil-card .veil-note {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.6;
+	color: var(--muted);
+}
+
+.veil-card .btn {
+	margin-top: var(--sp-5);
+}
+
+.veil-card .muted {
+	margin-top: var(--sp-4);
+	font-size: 12.5px;
+}
+
+/* Overlay variant only: the full-screen loader. Scoped with :not(.status) so it
+   never swallows the ".status busy" live-region line in the forge panel. */
+.busy:not(.status) {
+	position: fixed;
+	inset: 0;
+	z-index: 50;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: var(--sp-4);
+	background: rgba(4, 6, 12, 0.8);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+}
+
+.busy:not(.status) p {
+	font-size: 14px;
+	color: var(--muted);
+}
+
+.spinner {
+	width: 28px;
+	height: 28px;
+	border: 3px solid rgba(34, 230, 255, 0.18);
+	border-top-color: var(--cyan);
+	border-radius: 50%;
+	animation: gw-spin 0.8s linear infinite;
+}
+
+.toast {
+	position: fixed;
+	bottom: 20px;
+	left: 50%;
+	z-index: 60;
+	max-width: min(92vw, 460px);
+	padding: 10px 16px;
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	background: rgba(12, 18, 32, 0.96);
+	box-shadow: var(--shadow-panel), var(--glow-cyan);
+	color: var(--text);
+	font-size: 14px;
+	text-align: center;
+	opacity: 0;
+	transform: translate(-50%, 8px);
+	pointer-events: none;
+	transition:
+		opacity 0.2s var(--ease),
+		transform 0.2s var(--ease);
+}
+
+.toast.show {
+	opacity: 1;
+	transform: translate(-50%, 0);
+}
+
+/* ------------------------------------------------------------- keyframes */
+@keyframes gw-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes gw-pulse {
+	0%,
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 0.35;
+		transform: scale(0.82);
+	}
+}
+
+/* -------------------------------------------------------------- responsive */
+/* ------------------------------------------------------------- connect card */
+.connect-card {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: var(--sp-4);
+	margin-bottom: var(--sp-5);
+	padding: var(--sp-4);
+	border: 1px solid rgba(34, 230, 255, 0.28);
+	border-radius: var(--r-lg);
+	background: linear-gradient(
+		180deg,
+		rgba(34, 230, 255, 0.12),
+		rgba(34, 230, 255, 0.02)
+	);
+}
+
+.connect-card strong {
+	display: block;
+	font-family: var(--font-display);
+	font-size: var(--fs-md);
+	letter-spacing: 0.01em;
+}
+
+.connect-copy {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 0;
+}
+
+.connect-card .connect-title {
+	margin: 0;
+	font-family: var(--font-display);
+	font-size: var(--fs-md);
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--text);
+}
+
+.connect-card .muted {
+	margin: 0;
+	font-size: var(--fs-xs);
+	line-height: 1.55;
+}
+
+.connect-card p {
+	margin: 4px 0 0;
+	max-width: 34ch;
+	font-size: var(--fs-sm);
+	color: var(--muted);
+}
+
+.btn.small {
+	height: 30px;
+	padding: 0 11px;
+	font-size: var(--fs-xs);
+}
+
+@media (max-width: 899px) {
+	.layout {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--gap);
+		padding: var(--sp-5) 14px var(--sp-4);
+	}
+
+	.library-panel {
+		margin: 0 14px;
+	}
+
+	.topbar {
+		padding: 10px 14px;
+	}
+
+	.wordmark {
+		font-size: 17px;
+	}
+}
+
+@media (max-width: 560px) {
+	.panel,
+	.library-panel {
+		padding: 15px 14px;
+	}
+
+	.logo {
+		width: 38px;
+		height: 38px;
+		font-size: 20px;
+	}
+
+	.topbar {
+		flex-wrap: wrap;
+		row-gap: 8px;
+		padding-top: 9px;
+		padding-bottom: 9px;
+	}
+
+	.brand,
+	.topbar-right {
+		flex: 1 1 100%;
+	}
+
+	.topbar-right {
+		justify-content: flex-end;
+	}
+
+	.stage {
+		min-height: 220px;
+	}
+
+	.library {
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	}
+
+	.footer {
+		padding: 20px 16px 34px;
+	}
+}
+
+/* --------------------------------------------------------- reduced motion */
+/* Every animated / transitioned element is named explicitly so no `!important`
+   is needed: the source order inside this block wins over the base rules. */
+@media (prefers-reduced-motion: reduce) {
+	.spinner,
+	.status.busy::before {
+		animation: none;
+	}
+
+	.spinner {
+		border-top-color: var(--cyan);
+	}
+
+	.btn,
+	.prompt-input,
+	.select,
+	.text-input,
+	.card,
+	.game-card,
+	.toast {
+		transition: none;
+	}
+
+	.btn:hover:not(:disabled),
+	.game-card:hover,
+	.card:hover {
+		transform: none;
+	}
+}

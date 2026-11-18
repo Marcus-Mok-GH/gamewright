@@ -1,0 +1,37 @@
+[
+    {
+        "name": "openai/gpt-5.4-mini",
+        "role": "code",
+        "label": "Balanced",
+        "paid_only": false,
+        "note": "Default game writer — strong all-round quality at mid cost."
+    },
+    {
+        "name": "openai/gpt-5.4-nano",
+        "role": "code",
+        "label": "Fast",
+        "paid_only": false,
+        "note": "Quickest and cheapest writer; good for tiny arcade games."
+    },
+    {
+        "name": "openai/gpt-5.3-codex",
+        "role": "code",
+        "label": "Best code",
+        "paid_only": false,
+        "note": "Coding-focused reasoner; best for trickier game mechanics."
+    },
+    {
+        "name": "tongyi-mai/z-image-turbo",
+        "role": "image",
+        "label": "Cover art",
+        "paid_only": false,
+        "note": "Instant, budget-friendly cover art."
+    },
+    {
+        "name": "openai/tts-1",
+        "role": "speech",
+        "label": "Announcer",
+        "paid_only": false,
+        "note": "Short spoken announcement of the game you just built."
+    }
+]

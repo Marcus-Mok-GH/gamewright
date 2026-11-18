@@ -1,0 +1,28 @@
+{
+    "formatter": {
+        "indentStyle": "space",
+        "indentWidth": 4,
+        "lineWidth": 100
+    },
+    "javascript": {
+        "formatter": {
+            "quoteProperties": "preserve",
+            "quoteStyle": "double"
+        }
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "complexity": {
+                "useLiteralKeys": "off",
+                "noBannedTypes": "off"
+            },
+            "suspicious": {
+                "noAssignInExpressions": "off"
+            }
+        }
+    },
+    "files": {
+        "includes": ["**", "!**/node_modules"]
+    }
+}
