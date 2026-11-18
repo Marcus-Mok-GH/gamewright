@@ -48,7 +48,15 @@
                             request is billed to your own Pollen balance, so you stay in control.
                         </p>
                     </div>
-                    <button class="btn primary" type="button" data-signin>Connect</button>
+                    <div class="connect-actions">
+                        <button class="btn primary" type="button" data-signin>Connect</button>
+                        <a
+                            class="connect-alt"
+                            href="https://enter.pollinations.ai/authorize?scope=usage"
+                            rel="noopener"
+                            >or sign in with Pollinations</a
+                        >
+                    </div>
                 </div>
 
                 <label class="field">
@@ -108,10 +116,46 @@
                 <details class="how">
                     <summary>How it works</summary>
                     <ul>
-                        <li>A text model writes one self-contained HTML file: the game, its art and its sound effects.</li>
-                        <li>An image model paints the cover, and a speech model can announce your game.</li>
+                        <li>
+                            A text model writes one self-contained HTML file: the game, its art and its
+                            sound effects. <code>openai/gpt-5.4-mini</code> by default, with
+                            <code>openai/gpt-5.4-nano</code>, <code>openai/gpt-5.3-codex</code> and
+                            <code>z-ai/glm-5.3-flash</code> to pick from.
+                        </li>
+                        <li>
+                            An image model paints the cover (<code>tongyi-mai/z-image-turbo</code>), and a
+                            speech model can announce your game (<code>openai/tts-1</code>).
+                        </li>
+                        <li>
+                            Every call goes to the
+                            <a href="https://gen.pollinations.ai" rel="noopener">Pollinations API</a> with
+                            your own scoped key, so each request is billed to your balance. Nothing is charged
+                            until you build.
+                        </li>
+                        <li>
+                            The requests are plain calls to
+                            <code>https://gen.pollinations.ai/v1/chat/completions</code> (the game code),
+                            <code>https://gen.pollinations.ai/v1/images/generations</code> (cover art) and
+                            <code>https://gen.pollinations.ai/v1/audio/speech</code> (announcer) — see
+                            <a
+                                href="https://raw.githubusercontent.com/Marcus-Mok-GH/gamewright/main/api.js"
+                                rel="noopener"
+                                >api.js</a
+                            >.
+                        </li>
+                        <li>
+                            Gamewright is open source, and both the
+                            <a href="https://github.com/Marcus-Mok-GH/gamewright#readme" rel="noopener"
+                                >README</a
+                            >
+                            and this page's footer carry the “Made with pollinations.ai” badge.
+                        </li>
                         <li>Games run in a locked-down frame — no network, no access to your account.</li>
-                        <li>Every request is billed to your own Pollinations balance. Nothing is charged until you build.</li>
+                        <li>
+                            You sign in with
+                            <a href="https://enter.pollinations.ai" rel="noopener">Pollinations Pay</a>, so
+                            the app never holds a secret key and never pays on your behalf.
+                        </li>
                     </ul>
                 </details>
             </section>
@@ -179,8 +223,10 @@
                 />
             </a>
             <p class="muted">
-                Gamewright is frontend only. Your games live in this browser, and every model call
-                goes straight to Pollinations on your own key.
+                Gamewright is frontend only. Your games live in this browser, and every model call goes
+                straight to <a href="https://gen.pollinations.ai" rel="noopener">gen.pollinations.ai</a> on
+                your own key, signed in through
+                <a href="https://enter.pollinations.ai" rel="noopener">enter.pollinations.ai</a>.
             </p>
         </footer>
 
