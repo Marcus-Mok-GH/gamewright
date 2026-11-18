@@ -14,7 +14,7 @@ hand-written demo game), `models.json` (catalogue snapshot), `favicon.svg`.
   folder is the working clone — keep both in sync.
 - Live app: https://marcus-mok-gh.github.io/gamewright/ (GitHub Pages, no build step).
 - Quest: pollinations/pollinations#20021 ("Describe a game, get a playable game"),
-  reward 10 Pollen. The app submission is a separate issue.
+  reward 10 Pollen. The app submission is a separate issue (#20260).
 
 ## Model defaults (all `paid_only: false`, verified 2026-11-18)
 
@@ -41,6 +41,29 @@ any claim about a model or its price.
 - Share links carry the finished game in the URL fragment (`#g=<base64url>`), so a
   friend can play it without the maker's account — nothing is regenerated and
   nothing is spent.
+
+## Gotchas## App submission (pollinations/pollinations#20260, quest #20021)
+
+- Status 2026-11-18: issue #20260 opened (Quest field = #20021), repo published on
+  Pages, AI pre-review PASSED — "ready for human review", labels `APP-SUBMISSION`
+  + `APP-REVIEW`. Waiting on a maintainer's `APP-APPROVED`.
+- Flow: AI pre-review (`APP-SUBMISSION` → `APP-REVIEW`) → a **maintainer** adds
+  `APP-APPROVED` → `apps-publish-submissions.yml` prepends the entry to
+  `operations/app-management/app.json` and opens an auto-merge PR that closes
+  #20260 and quest #20021.
+- **Marcus-Mok-GH has pull-only access to `pollinations/pollinations`**, so the
+  approval label has to be added by a maintainer (label edits return 403).
+- Checklist: app URL loads ✓ · badge from
+  `pollinations/pollinations/packages/ui/src/brand/badge-made-with.svg` in the
+  README ✓ and in the app footer ✓ · 16:9 screenshot ≥1280×720, ≤5 MB ✓ ·
+  every default and selectable model `paid_only: false` ✓.
+- Pipeline check 2026-11-18: `validate-submission.js` run from a throwaway
+  worktree of `origin/main` with `ISSUE_NUMBER=20260 ISSUE_AUTHOR=Marcus-Mok-GH`
+  → `valid: true`, zero errors; the built catalog entry looks right. That script
+  needs `sharp` (not in the clone's `node_modules`) — install it into
+  `operations/app-management/ingestion/node_modules/` in the worktree.
+- Quest #20021 carries the label `QUEST` (the code checks `QUEST`; upstream docs
+  still say `POLLEN-QUEST`).
 
 ## Gotchas
 
